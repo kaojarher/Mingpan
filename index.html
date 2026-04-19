@@ -487,10 +487,9 @@
         }
         
         // 農曆基準：1900年1月31日 = 庚子正月初一
+        // 注意：使用 Date.UTC() 避免台灣夏令時間（DST）造成時區 off-by-one 誤差
         function solarToLunar(year, month, day) {
-            const baseDate = new Date(1900, 0, 31);
-            const targetDate = new Date(year, month - 1, day);
-            let diffDays = Math.floor((targetDate - baseDate) / 86400000);
+            let diffDays = Math.round((Date.UTC(year, month - 1, day) - Date.UTC(1900, 0, 31)) / 86400000);
             if (diffDays < 0) return null;
             
             let lunarYear = 1900;
